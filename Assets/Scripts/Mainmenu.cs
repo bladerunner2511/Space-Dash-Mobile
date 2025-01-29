@@ -1,29 +1,45 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // For scene management
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame()
+    public GameObject settingsPanel; // Reference to the Settings UI
+    public GameObject highScorePanel; // Reference to the High Score UI
+
+    private void Start()
     {
-        // Load the main game scene
-        SceneManager.LoadScene("Game");
+        // Ensure both panels are hidden at start
+        settingsPanel.SetActive(false);
+        highScorePanel.SetActive(false);
     }
 
-    public void ShowHighscore()
+    public void PlayGame()
     {
-        Debug.Log("Highscore button clicked!");
-        // Add functionality to show high scores
+        SceneManager.LoadScene("Game"); // Replace with your game scene name
+    }
+
+    public void OpenHighScore()
+    {
+        highScorePanel.SetActive(true);
+    }
+
+    public void CloseHighScore()
+    {
+        highScorePanel.SetActive(false);
     }
 
     public void OpenSettings()
     {
-        Debug.Log("Settings button clicked!");
-        // Add functionality to open settings
+        settingsPanel.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsPanel.SetActive(false);
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exit button clicked!");
-        Application.Quit(); // Quit the application (only works in a built game)
+        Application.Quit();
     }
 }
