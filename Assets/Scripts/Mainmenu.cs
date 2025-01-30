@@ -1,26 +1,37 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject settingsPanel; // Reference to the Settings UI
-    public GameObject highScorePanel; // Reference to the High Score UI
+    public GameObject settingsPanel;
+    public GameObject highScorePanel;
+    private HighScoreUI highScoreUI;
+    private ScreenFader screenFader;
 
     private void Start()
     {
-        // Ensure both panels are hidden at start
         settingsPanel.SetActive(false);
         highScorePanel.SetActive(false);
+
+        highScoreUI = highScorePanel.GetComponent<HighScoreUI>();
+        screenFader = FindObjectOfType<ScreenFader>(); // Find the fader in the scene
     }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("Game"); // Replace with your game scene name
+        if (screenFader != null)
+        {
+            screenFader.FadeToGameScene("Game"); // Replace with your game scene name
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        }
     }
 
     public void OpenHighScore()
     {
         highScorePanel.SetActive(true);
+        highScoreUI.UpdateHighScore();
     }
 
     public void CloseHighScore()

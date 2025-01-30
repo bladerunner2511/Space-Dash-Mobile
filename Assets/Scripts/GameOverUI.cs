@@ -6,12 +6,14 @@ public class GameOverUI : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
-
     private ScoreManager scoreManager;
+    private ScreenFader screenFader;
 
     private void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        screenFader = FindObjectOfType<ScreenFader>(); // Find the Fade Manager
+
 
         if (scoreManager == null)
         {
@@ -37,6 +39,16 @@ public class GameOverUI : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f; // Resume time
-        SceneManager.LoadScene("MainMenuScene"); // Load the main menu scene
+
+        if (screenFader != null)
+        {
+            screenFader.FadeToGameScene("MainMenu"); // Fade transition to main menu 
+        }
+
+        else
+        {
+            SceneManager.LoadScene("MainMenu"); // Fallback to Main Menu if the ScreenFader is missing
+        }
+        
     }
 }
