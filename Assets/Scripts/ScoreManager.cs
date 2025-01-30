@@ -1,27 +1,50 @@
 using UnityEngine;
-using TMPro; // Required for TextMeshPro
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText; // Reference to the UI text element
-    private int score = 0;           // Current score
+    public TextMeshProUGUI scoreText; // UI Text for current score
+    private int score = 0;
+    private int highScore = 0;
 
     private void Start()
     {
-        // Initialize the score display
+        // Load the saved high score when the game starts
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
         UpdateScoreUI();
     }
 
     public void AddScore(int amount)
     {
-        // Increment the score and update the UI
         score += amount;
         UpdateScoreUI();
     }
 
     private void UpdateScoreUI()
     {
-        // Update the text element with the new score
         scoreText.text = "Score: " + score;
+    }
+
+    // Returns the player's current session score
+    public int GetScore()
+    {
+        return score;
+    }
+
+    // Returns the saved high score
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+    // Checks if the current score is a new high score and saves it
+    public void CheckAndUpdateHighScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore); // Save new high score
+            PlayerPrefs.Save(); // Ensure it's written to storage
+        }
     }
 }
